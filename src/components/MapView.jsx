@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Card } from './ui/card';
 import { MapPin, Navigation, Zap } from 'lucide-react';
 import GeocodingService from '../services/GeocodingService';
+import FilterService from '../services/FilterService';
 
-const MapView = ({ searchLocation, onParkingSelect }) => {
+const MapView = ({ searchLocation, onParkingSelect, filters }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [parkingLots, setParkingLots] = useState([
+  const [allParkingLots] = useState([
     {
       id: 1,
       name: 'Shopping Center Norte',
@@ -57,14 +58,18 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
       distance: null
     }
   ]);
+  
+  const [filteredParkingLots, setFilteredParkingLots] = useState(allParkingLots);
 
   // Atualizar distâncias quando a localização de busca mudar
   useEffect(() => {
+    let updatedLots = [...allParkingLots];
+    
     if (searchLocation && searchLocation.lat && searchLocation.lon) {
       setSelectedLocation(searchLocation);
       
       // Calcular distâncias para todos os estacionamentos
-      const updatedParkingLots = parkingLots.map(parking => ({
+      updatedLots = updatedLots.map(parking => ({
         ...parking,
         distance: GeocodingService.calculateDistance(
           searchLocation.lat,
@@ -73,12 +78,13 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
           parking.lon
         )
       }));
-
-      // Ordenar por distância
-      updatedParkingLots.sort((a, b) => a.distance - b.distance);
-      setParkingLots(updatedParkingLots);
     }
-  }, [searchLocation]);
+
+    // Aplicar filtros
+    const filtered = FilterService.applyFilters(updatedLots, filters);
+    const sorted = FilterService.sortParkingLots(filtered, 'distance');
+    setFilteredParkingLots(sorted);
+  }, [searchLocation, filters, allParkingLots]);
 
   const handleParkingClick = (parking) => {
     onParkingSelect(parking);
@@ -112,6 +118,8 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
     };
   };
 
+  const stats = FilterService.getFilteredStats(allParkingLots, filteredParkingLots);
+
   return (
     <div className="relative h-96 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg overflow-hidden">
       {/* Simulação do mapa */}
@@ -142,8 +150,8 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
           </div>
         )}
 
-        {/* Marcadores de estacionamento */}
-        {parkingLots.map((parking) => (
+        {/* Marcadores de estacionamento filtrados */}
+        {filteredParkingLots.map((parking) => (
           <div
             key={parking.id}
             className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 group"
@@ -191,19 +199,33 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
             <span className="text-xs text-gray-700">Lotado</span>
           </div>
         </div>
+        
+        {/* Estatísticas dos filtros */}
+        {FilterService.hasActiveFilters(filters) && (
+          <div className="mt-3 pt-2 border-t border-gray-200">
+            <div className="text-xs text-gray-600">
+              Mostrando {stats.total} de {allParkingLots.length} estacionamentos
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Lista de estacionamentos próximos (quando há busca) */}
-      {selectedLocation && parkingLots.some(p => p.distance !== null) && (
+      {selectedLocation && filteredParkingLots.length > 0 && (
         <div className="absolute top-4 right-4 w-80 max-h-80 overflow-y-auto">
           <Card className="bg-white/95 backdrop-blur-sm">
             <div className="p-3">
               <h3 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-blue-600" />
                 Estacionamentos próximos
+                {FilterService.hasActiveFilters(filters) && (
+                  <span className="text-xs text-gray-500">
+                    ({stats.total} filtrados)
+                  </span>
+                )}
               </h3>
               <div className="space-y-2">
-                {parkingLots.slice(0, 3).map((parking) => (
+                {filteredParkingLots.slice(0, 3).map((parking) => (
                   <div
                     key={parking.id}
                     className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
@@ -212,6 +234,18 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
                     <div className="flex-1">
                       <div className="font-medium text-sm text-gray-900">{parking.name}</div>
                       <div className="text-xs text-gray-600">{parking.price}</div>
+                      {parking.features && parking.features.length > 0 && (
+                        <div className="flex gap-1 mt-1">
+                          {parking.features.slice(0, 2).map((feature, idx) => (
+                            <span key={idx} className="text-xs bg-gray-100 text-gray-600 px-1 py-0.5 rounded">
+                              {feature}
+                            </span>
+                          ))}
+                          {parking.features.length > 2 && (
+                            <span className="text-xs text-gray-500">+{parking.features.length - 2}</span>
+                          )}
+                        </div>
+                      )}
                     </div>
                     <div className="text-right">
                       {parking.distance && (
@@ -232,6 +266,20 @@ const MapView = ({ searchLocation, onParkingSelect }) => {
                   </div>
                 ))}
               </div>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Mensagem quando nenhum estacionamento atende aos filtros */}
+      {filteredParkingLots.length === 0 && FilterService.hasActiveFilters(filters) && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Card className="bg-white/95 backdrop-blur-sm p-6 text-center">
+            <div className="text-gray-600 mb-2">
+              Nenhum estacionamento encontrado
+            </div>
+            <div className="text-sm text-gray-500">
+              Tente ajustar os filtros para ver mais resultados
             </div>
           </Card>
         </div>

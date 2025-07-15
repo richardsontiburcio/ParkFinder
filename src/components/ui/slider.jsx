@@ -1,56 +1,82 @@
-"use client"
+import React from 'react';
 
-import * as React from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
+const Slider = ({ value, onValueChange, min = 0, max = 100, step = 1, className = '' }) => {
+  const handleChange = (e) => {
+    const newValue = parseInt(e.target.value);
+    if (Array.isArray(value)) {
+      // Para range slider (dois valores)
+      if (e.target.dataset.index === '0') {
+        onValueChange([newValue, value[1]]);
+      } else {
+        onValueChange([value[0], newValue]);
+      }
+    } else {
+      // Para slider simples (um valor)
+      onValueChange([newValue]);
+    }
+  };
 
-import { cn } from "@/lib/utils"
+  if (Array.isArray(value) && value.length === 2) {
+    // Range slider
+    return (
+      <div className={`relative ${className}`}>
+        <div className="relative h-2 bg-gray-200 rounded-full">
+          <div
+            className="absolute h-2 bg-blue-600 rounded-full"
+            style={{
+              left: `${((value[0] - min) / (max - min)) * 100}%`,
+              width: `${((value[1] - value[0]) / (max - min)) * 100}%`
+            }}
+          />
+        </div>
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value[0]}
+          onChange={handleChange}
+          data-index="0"
+          className="absolute top-0 left-0 w-full h-2 opacity-0 cursor-pointer"
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value[1]}
+          onChange={handleChange}
+          data-index="1"
+          className="absolute top-0 left-0 w-full h-2 opacity-0 cursor-pointer"
+        />
+      </div>
+    );
+  }
 
-function Slider({
-  className,
-  defaultValue,
-  value,
-  min = 0,
-  max = 100,
-  ...props
-}) {
-  const _values = React.useMemo(() =>
-    Array.isArray(value)
-      ? value
-      : Array.isArray(defaultValue)
-        ? defaultValue
-        : [min, max], [value, defaultValue, min, max])
-
+  // Slider simples
+  const singleValue = Array.isArray(value) ? value[0] : value;
   return (
-    <SliderPrimitive.Root
-      data-slot="slider"
-      defaultValue={defaultValue}
-      value={value}
-      min={min}
-      max={max}
-      className={cn(
-        "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
-        className
-      )}
-      {...props}>
-      <SliderPrimitive.Track
-        data-slot="slider-track"
-        className={cn(
-          "bg-muted relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5"
-        )}>
-        <SliderPrimitive.Range
-          data-slot="slider-range"
-          className={cn(
-            "bg-primary absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
-          )} />
-      </SliderPrimitive.Track>
-      {Array.from({ length: _values.length }, (_, index) => (
-        <SliderPrimitive.Thumb
-          data-slot="slider-thumb"
-          key={index}
-          className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50" />
-      ))}
-    </SliderPrimitive.Root>
+    <div className={`relative ${className}`}>
+      <div className="relative h-2 bg-gray-200 rounded-full">
+        <div
+          className="absolute h-2 bg-blue-600 rounded-full"
+          style={{
+            width: `${((singleValue - min) / (max - min)) * 100}%`
+          }}
+        />
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={singleValue}
+        onChange={handleChange}
+        className="absolute top-0 left-0 w-full h-2 opacity-0 cursor-pointer"
+      />
+    </div>
   );
-}
+};
 
-export { Slider }
+export { Slider };
+

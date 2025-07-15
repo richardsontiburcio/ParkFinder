@@ -3,11 +3,15 @@ import './App.css'
 import SearchBar from './components/SearchBar'
 import MapView from './components/MapView'
 import ParkingDetails from './components/ParkingDetails'
+import FilterPanel from './components/FilterPanel'
+import FilterService from './services/FilterService'
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [selectedParking, setSelectedParking] = useState(null)
+  const [filters, setFilters] = useState(FilterService.getDefaultFilters())
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false)
 
   const handleSearch = (term) => {
     setSearchTerm(term)
@@ -25,6 +29,15 @@ function App() {
 
   const handleBackToMap = () => {
     setSelectedParking(null)
+  }
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters)
+    console.log('Filtros aplicados:', newFilters)
+  }
+
+  const toggleFilterPanel = () => {
+    setIsFilterPanelOpen(!isFilterPanelOpen)
   }
 
   return (
@@ -60,7 +73,8 @@ function App() {
             />
             <MapView 
               searchLocation={selectedLocation}
-              onParkingSelect={handleParkingSelect} 
+              onParkingSelect={handleParkingSelect}
+              filters={filters}
             />
             
             {/* Informações adicionais quando há busca */}
@@ -92,6 +106,14 @@ function App() {
             onBack={handleBackToMap}
           />
         )}
+
+        {/* Painel de filtros */}
+        <FilterPanel
+          filters={filters}
+          onFiltersChange={handleFiltersChange}
+          isOpen={isFilterPanelOpen}
+          onToggle={toggleFilterPanel}
+        />
       </main>
     </div>
   )

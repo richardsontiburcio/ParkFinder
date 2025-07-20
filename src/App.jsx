@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import './App.css'
 import SearchBar from './components/SearchBar'
-import MapView from './components/MapView'
+import RealMapView from './components/RealMapView'
 import ParkingDetails from './components/ParkingDetails'
 import FilterPanel from './components/FilterPanel'
 import FilterService from './services/FilterService'
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedLocation, setSelectedLocation] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState({
+    lat: -8.0584,
+    lon: -34.8883,
+    name: 'Conde da Boa Vista, Recife, Brasil'
+  })
   const [selectedParking, setSelectedParking] = useState(null)
   const [filters, setFilters] = useState(FilterService.getDefaultFilters())
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false)
@@ -46,8 +50,9 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-blue-600">ParkFinder</h1>
+              <div className="flex-shrink-0 bg-orange-600 p-2 rounded-md text-center">
+                <h1 className="text-2xl font-bold text-white">ParkFinder</h1>
+                <p className="text-white text-xs mt-1">O jeito inteligente de estacionar.</p>
               </div>
             </div>
             <div className="hidden md:block">
@@ -71,7 +76,7 @@ function App() {
               onSearch={handleSearch} 
               onLocationSelect={handleLocationSelect}
             />
-            <MapView 
+            <RealMapView 
               searchLocation={selectedLocation}
               onParkingSelect={handleParkingSelect}
               filters={filters}
@@ -120,4 +125,5 @@ function App() {
 }
 
 export default App
+
 

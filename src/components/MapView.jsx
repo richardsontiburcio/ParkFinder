@@ -9,9 +9,9 @@ const MapView = ({ searchLocation, onParkingSelect, filters }) => {
   const [allParkingLots] = useState([
     {
       id: 1,
-      name: 'Shopping Center Norte',
-      lat: -23.5505,
-      lon: -46.6333,
+      name: 'Shopping Recife',
+      lat: -8.0900,
+      lon: -34.9000,
       price: 'R$ 8,00/hora',
       availability: 'Disponível',
       features: ['Coberto', 'Segurança 24h', 'Acessível'],
@@ -19,9 +19,9 @@ const MapView = ({ searchLocation, onParkingSelect, filters }) => {
     },
     {
       id: 2,
-      name: 'Estacionamento Vila Madalena',
-      lat: -23.5489,
-      lon: -46.6388,
+      name: 'Estacionamento Boa Viagem',
+      lat: -8.1200,
+      lon: -34.9050,
       price: 'R$ 12,00/hora',
       availability: 'Quase lotado',
       features: ['Descoberto', 'Segurança', 'Lavagem'],
@@ -29,9 +29,9 @@ const MapView = ({ searchLocation, onParkingSelect, filters }) => {
     },
     {
       id: 3,
-      name: 'Parking São Paulo Center',
-      lat: -23.5475,
-      lon: -46.6361,
+      name: 'Parking Marco Zero',
+      lat: -8.0600,
+      lon: -34.8700,
       price: 'R$ 15,00/hora',
       availability: 'Disponível',
       features: ['Coberto', 'Valet', 'Acessível'],
@@ -39,9 +39,9 @@ const MapView = ({ searchLocation, onParkingSelect, filters }) => {
     },
     {
       id: 4,
-      name: 'Estacionamento Paulista',
-      lat: -23.5558,
-      lon: -46.6396,
+      name: 'Estacionamento RioMar',
+      lat: -8.0800,
+      lon: -34.8900,
       price: 'R$ 10,00/hora',
       availability: 'Disponível',
       features: ['Coberto', 'Segurança 24h'],
@@ -49,9 +49,9 @@ const MapView = ({ searchLocation, onParkingSelect, filters }) => {
     },
     {
       id: 5,
-      name: 'Garagem Liberdade',
-      lat: -23.5587,
-      lon: -46.6347,
+      name: 'Garagem Antigo',
+      lat: -8.0650,
+      lon: -34.8750,
       price: 'R$ 6,00/hora',
       availability: 'Disponível',
       features: ['Descoberto', 'Econômico'],
@@ -160,7 +160,7 @@ const MapView = ({ searchLocation, onParkingSelect, filters }) => {
           >
             <div className="relative">
               <div className="w-8 h-8 bg-blue-600 rounded-full border-2 border-white shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors group-hover:scale-110 transform">
-                <span className="text-white font-bold text-sm">P</span>
+                <span className="text-white font-bold text-sm">E</span>
               </div>
               
               {/* Indicador de disponibilidade */}

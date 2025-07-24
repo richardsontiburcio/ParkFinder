@@ -135,29 +135,31 @@ const SearchBar = ({ onSearch, onLocationSelect }) => {
   };
 
   return (
-    <div className="relative p-4 bg-white shadow-sm" ref={searchContainerRef}>
-      <div className="flex gap-2">
+    <div className="w-full max-w-4xl mx-auto" ref={searchContainerRef}>
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-stretch sm:items-center">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            type="text"
-            placeholder="Digite seu destino..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-            onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-            className="pl-10 pr-10"
-          />
-          {searchTerm && (
-            <button
-              onClick={clearSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Input
+              type="text"
+              placeholder="Digite seu destino..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input pl-10 pr-10 py-3 text-base border-2 border-gray-200 focus:border-orange-500 focus:ring-orange-500 rounded-lg"
+              onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+            />
+            {searchTerm && (
+              <button
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            )}
+          </div>
           
-          {showSuggestions && (
+          {/* Sugestões */}
+          {showSuggestions && suggestions.length > 0 && (
             <SearchSuggestions
               suggestions={suggestions}
               onSelect={handleSuggestionSelect}
@@ -166,23 +168,24 @@ const SearchBar = ({ onSearch, onLocationSelect }) => {
           )}
         </div>
         
-        <Button onClick={handleSearch} size="sm" disabled={isLoading}>
-          {isLoading ? (
-            <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-          ) : (
-            'Buscar'
-          )}
-        </Button>
-        
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleCurrentLocation}
-          className="px-3"
-          disabled={isLoading}
-        >
-          <Navigation className="w-4 h-4" />
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={handleSearch}
+            disabled={!searchTerm.trim() || isLoading}
+            className="search-button flex-1 sm:flex-none px-6 py-3 text-base font-semibold"
+          >
+            {isLoading ? 'Buscando...' : 'Buscar'}
+          </Button>
+          
+          <Button
+            onClick={handleCurrentLocation}
+            variant="outline"
+            className="px-3 py-3 border-2 border-gray-200 hover:border-orange-500 hover:text-orange-600"
+            title="Usar localização atual"
+          >
+            <Navigation className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
     </div>
   );

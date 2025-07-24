@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './Badge';
@@ -14,9 +14,26 @@ import {
   Zap,
   CreditCard
 } from 'lucide-react';
+import parkingImages from '../assets/parking_images';
 
 const ParkingDetails = ({ parking, onBack }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    setCurrentImageIndex(0); // Resetar o índice da imagem ao mudar de estacionamento
+  }, [parking]);
+
   if (!parking) return null;
+
+  const images = parkingImages.interior; // Usar imagens internas para detalhes
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
 
   const getAmenityInfo = (amenity) => {
     const amenities = {
@@ -44,12 +61,37 @@ const ParkingDetails = ({ parking, onBack }) => {
       </div>
 
       <div className="p-4 space-y-4">
-        {/* Imagem do estacionamento */}
+        {/* Imagem do estacionamento - Carrossel */}
         <Card>
-          <div className="h-48 bg-gradient-to-r from-blue-100 to-blue-200 rounded-t-lg flex items-center justify-center">
-            <div className="text-center text-blue-600">
-              <Car className="w-16 h-16 mx-auto mb-2" />
-              <p className="text-sm">Imagem do estacionamento</p>
+          <div className="relative h-48 rounded-t-lg overflow-hidden">
+            <img 
+              src={images[currentImageIndex]}
+              alt="Imagem do Estacionamento"
+              className="w-full h-full object-cover"
+            />
+            {images.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImage} 
+                  className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-r-lg focus:outline-none"
+                >
+                  &#10094;
+                </button>
+                <button 
+                  onClick={nextImage} 
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-l-lg focus:outline-none"
+                >
+                  &#10095;
+                </button>
+              </>
+            )}
+            <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
+              {images.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`block w-2 h-2 rounded-full ${idx === currentImageIndex ? 'bg-white' : 'bg-gray-400'}`}
+                ></span>
+              ))}
             </div>
           </div>
         </Card>

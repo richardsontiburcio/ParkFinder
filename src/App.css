@@ -104,6 +104,28 @@
   box-shadow: 0 6px 16px rgba(255, 140, 0, 0.4);
 }
 
+/* Botão Buscar customizado */
+.search-button {
+  background-color: #FF8C00 !important;
+  border-color: #FF8C00 !important;
+  color: white !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: #e67e00 !important;
+  border-color: #e67e00 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+}
+
+.search-button:disabled {
+  background-color: #ffb366 !important;
+  border-color: #ffb366 !important;
+  opacity: 0.7;
+}
+
 .status-available {
   background: #10b981;
   color: white;
@@ -182,6 +204,307 @@
   .status-unavailable {
     font-size: 12px;
     padding: 2px 8px;
+  }
+}
+
+/* Responsividade completa para todas as plataformas */
+@media (max-width: 480px) {
+  /* Mobile pequeno */
+  .parkfinder-header {
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .parkfinder-logo {
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .parkfinder-nav {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .parkfinder-nav button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    min-width: auto;
+  }
+  
+  .search-container {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .search-input {
+    width: 100%;
+    font-size: 1rem;
+  }
+  
+  .search-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  .parkfinder-map {
+    height: calc(100vh - 220px);
+    margin: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  .parking-list-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 40vh;
+    background: white;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+  
+  .hover-image-card {
+    display: none; /* Desabilitar hover em mobile */
+  }
+  
+  .filter-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 1rem 1rem 0 0;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1001;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Mobile grande / Tablet pequeno */
+  .parkfinder-header {
+    padding: 0.75rem 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .parkfinder-nav {
+    gap: 0.5rem;
+  }
+  
+  .parkfinder-nav button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .search-container {
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .search-input {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .parkfinder-map {
+    height: calc(100vh - 200px);
+    margin: 0.75rem;
+  }
+  
+  .parking-list-sidebar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 320px;
+    max-height: 60vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+  
+  .hover-image-card {
+    max-width: 200px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet */
+  .parkfinder-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .search-container {
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+  
+  .parkfinder-map {
+    height: calc(100vh - 180px);
+    margin: 1rem 1.5rem;
+  }
+  
+  .parking-list-sidebar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 350px;
+    max-height: 70vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    border-radius: 1rem;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+  
+  .hover-image-card {
+    max-width: 240px;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Desktop */
+  .parkfinder-header {
+    padding: 1rem 2rem;
+  }
+  
+  .search-container {
+    padding: 1rem 2rem;
+    gap: 1rem;
+  }
+  
+  .parkfinder-map {
+    height: calc(100vh - 160px);
+    margin: 1rem 2rem;
+  }
+  
+  .parking-list-sidebar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 380px;
+    max-height: 75vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    border-radius: 1rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+  
+  .hover-image-card {
+    max-width: 280px;
+  }
+}
+
+/* Melhorias para touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .parking-marker {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+  
+  .parkfinder-nav button {
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+  }
+  
+  .search-button {
+    min-height: 44px;
+  }
+  
+  .hover-image-card {
+    display: none;
+  }
+  
+  /* Melhorar carrossel para touch */
+  .carousel-button {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+/* Orientação landscape em mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .parkfinder-map {
+    height: calc(100vh - 120px);
+  }
+  
+  .parking-list-sidebar {
+    max-height: 50vh;
+  }
+  
+  .parkfinder-header {
+    padding: 0.5rem 1rem;
+  }
+  
+  .search-container {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Suporte para telas de alta densidade */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .parking-marker {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .parkfinder-logo {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Modo escuro responsivo */
+@media (prefers-color-scheme: dark) {
+  .parking-list-sidebar {
+    background: rgba(30, 30, 30, 0.95);
+    color: white;
+  }
+  
+  .hover-image-card {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Acessibilidade - redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .parking-marker {
+    animation: none;
+  }
+  
+  .card-hover {
+    transition: none;
+  }
+  
+  .search-button {
+    transition: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .parkfinder-nav,
+  .search-container,
+  .hover-image-card,
+  .filter-panel {
+    display: none;
+  }
+  
+  .parkfinder-map {
+    height: 80vh;
+    margin: 0;
+    border-radius: 0;
   }
 }
 

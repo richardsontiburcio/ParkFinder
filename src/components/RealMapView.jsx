@@ -4,6 +4,7 @@ import { Card } from './ui/card';
 import { MapPin, Navigation } from 'lucide-react';
 import GeocodingService from '../services/GeocodingService';
 import FilterService from '../services/FilterService';
+import parkingImages from '../assets/parking_images';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -64,6 +65,8 @@ const createDestinationIcon = () => {
 
 const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [hoveredParking, setHoveredParking] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [allParkingLots] = useState([
     {
       id: 1,
@@ -73,7 +76,8 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
       price: 'R$ 8,00/hora',
       availability: 'Disponível',
       features: ['Coberto', 'Segurança 24h', 'Acessível'],
-      distance: null
+      distance: null,
+      image: parkingImages.exterior[0]
     },
     {
       id: 2,
@@ -83,7 +87,8 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
       price: 'R$ 12,00/hora',
       availability: 'Quase lotado',
       features: ['Descoberto', 'Segurança', 'Lavagem'],
-      distance: null
+      distance: null,
+      image: parkingImages.exterior[1]
     },
     {
       id: 3,
@@ -93,7 +98,8 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
       price: 'R$ 15,00/hora',
       availability: 'Disponível',
       features: ['Coberto', 'Valet', 'Acessível'],
-      distance: null
+      distance: null,
+      image: parkingImages.exterior[2]
     },
     {
       id: 4,
@@ -103,7 +109,8 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
       price: 'R$ 10,00/hora',
       availability: 'Disponível',
       features: ['Coberto', 'Segurança 24h'],
-      distance: null
+      distance: null,
+      image: parkingImages.exterior[3]
     },
     {
       id: 5,
@@ -113,7 +120,8 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
       price: 'R$ 6,00/hora',
       availability: 'Disponível',
       features: ['Descoberto', 'Econômico'],
-      distance: null
+      distance: null,
+      image: parkingImages.exterior[0] // Reutilizar primeira imagem
     }
   ]);
   
@@ -152,6 +160,15 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
     onParkingSelect(parking);
   };
 
+  const handleParkingHover = (parking, event) => {
+    setHoveredParking(parking);
+    setMousePosition({ x: event.originalEvent.clientX, y: event.originalEvent.clientY });
+  };
+
+  const handleParkingLeave = () => {
+    setHoveredParking(null);
+  };
+
   const getAvailabilityColor = (availability) => {
     switch (availability) {
       case 'Disponível':
@@ -168,13 +185,15 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
   const stats = FilterService.getFilteredStats(allParkingLots, filteredParkingLots);
 
   return (
-    <div className="relative h-96 rounded-lg overflow-hidden">
-      <MapContainer
-        center={defaultCenter}
-        zoom={defaultZoom}
-        style={{ height: '100%', width: '100%' }}
-        className="z-0"
-      >
+    <div className="relative w-full">
+      {/* Container do mapa responsivo */}
+      <div className="parkfinder-map relative w-full h-[60vh] sm:h-[70vh] lg:h-[75vh] rounded-lg overflow-hidden shadow-lg">
+        <MapContainer
+          center={defaultCenter}
+          zoom={defaultZoom}
+          style={{ height: '100%', width: '100%' }}
+          className="z-0"
+        >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -203,7 +222,9 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
             position={[parking.lat, parking.lon]}
             icon={createCustomIcon('E', getAvailabilityColor(parking.availability))}
             eventHandlers={{
-              click: () => handleParkingClick(parking)
+              click: () => handleParkingClick(parking),
+              mouseover: (e) => handleParkingHover(parking, e),
+              mouseout: handleParkingLeave
             }}
           >
             <Popup>
@@ -273,9 +294,9 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
         )}
       </div>
 
-      {/* Lista de estacionamentos próximos (quando há busca) */}
+      {/* Lista de estacionamentos próximos (responsivo) */}
       {selectedLocation && filteredParkingLots.length > 0 && (
-        <div className="absolute top-4 right-4 w-80 max-h-80 overflow-y-auto z-10">
+        <div className="parking-list-sidebar absolute top-4 right-4 w-full sm:w-80 max-w-sm max-h-80 overflow-y-auto z-10 hidden sm:block">
           <Card className="bg-white/95 backdrop-blur-sm">
             <div className="p-3">
               <h3 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
@@ -345,6 +366,39 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
               Tente ajustar os filtros para ver mais resultados
             </div>
           </Card>
+        </div>
+      )}
+      
+      {/* Mini imagem hover - responsivo */}
+      {hoveredParking && (
+        <div 
+          className="hover-image-card fixed z-50 pointer-events-none hidden sm:block"
+          style={{
+            left: mousePosition.x + 15,
+            top: mousePosition.y - 80,
+            transform: 'translateY(-50%)'
+          }}
+        >
+          <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden max-w-xs">
+            <img 
+              src={hoveredParking.image}
+              alt={hoveredParking.name}
+              className="w-full h-24 sm:h-32 object-cover"
+            />
+            <div className="p-2">
+              <div className="font-medium text-sm text-gray-900 truncate">{hoveredParking.name}</div>
+              <div className="text-xs text-gray-600">{hoveredParking.price}</div>
+              <div className={`text-xs px-2 py-1 rounded-full mt-1 inline-block ${
+                hoveredParking.availability === 'Disponível' 
+                  ? 'bg-green-100 text-green-800' 
+                  : hoveredParking.availability === 'Quase lotado'
+                  ? 'bg-yellow-100 text-yellow-800'
+                  : 'bg-red-100 text-red-800'
+              }`}>
+                {hoveredParking.availability}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

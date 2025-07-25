@@ -346,3 +346,4 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
 
 export default RealMapView;
 
+

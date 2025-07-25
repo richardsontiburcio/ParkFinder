@@ -294,67 +294,6 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
         )}
       </div>
 
-      {/* Lista de estacionamentos próximos (responsivo) */}
-      {selectedLocation && filteredParkingLots.length > 0 && (
-        <div className="parking-list-sidebar absolute top-4 right-4 w-full sm:w-80 max-w-sm max-h-80 overflow-y-auto z-10 hidden sm:block">
-          <Card className="bg-white/95 backdrop-blur-sm">
-            <div className="p-3">
-              <h3 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-orange-600" />
-                Estacionamentos próximos
-                {FilterService.hasActiveFilters(filters) && (
-                  <span className="text-xs text-gray-500">
-                    ({stats.total} filtrados)
-                  </span>
-                )}
-              </h3>
-              <div className="space-y-2">
-                {filteredParkingLots.slice(0, 3).map((parking) => (
-                  <div
-                    key={parking.id}
-                    className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
-                    onClick={() => handleParkingClick(parking)}
-                  >
-                    <div className="flex-1">
-                      <div className="font-medium text-sm text-gray-900">{parking.name}</div>
-                      <div className="text-xs text-gray-600">{parking.price}</div>
-                      {parking.features && parking.features.length > 0 && (
-                        <div className="flex gap-1 mt-1">
-                          {parking.features.slice(0, 2).map((feature, idx) => (
-                            <span key={idx} className="text-xs bg-gray-100 text-gray-600 px-1 py-0.5 rounded">
-                              {feature}
-                            </span>
-                          ))}
-                          {parking.features.length > 2 && (
-                            <span className="text-xs text-gray-500">+{parking.features.length - 2}</span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      {parking.distance && (
-                        <div className="text-sm font-medium text-orange-600">
-                          {GeocodingService.formatDistance(parking.distance)}
-                        </div>
-                      )}
-                      <div className={`text-xs px-2 py-1 rounded-full ${
-                        parking.availability === 'Disponível' 
-                          ? 'bg-green-100 text-green-800' 
-                          : parking.availability === 'Quase lotado'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {parking.availability}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Card>
-        </div>
-      )}
-
       {/* Mensagem quando nenhum estacionamento atende aos filtros */}
       {filteredParkingLots.length === 0 && FilterService.hasActiveFilters(filters) && (
         <div className="absolute inset-0 flex items-center justify-center z-10">

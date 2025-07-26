@@ -4,7 +4,7 @@ import SearchBar from './components/SearchBar'
 import RealMapView from './components/RealMapView'
 import ParkingDetails from './components/ParkingDetails'
 import FilterPanel from './components/FilterPanel'
-import ParkingRegister from './components/ParkingRegister'
+import ParkingInfo from './components/ParkingInfo'
 import Login from './components/Login'
 import FilterService from './services/FilterService'
 
@@ -18,7 +18,7 @@ function App() {
   const [selectedParking, setSelectedParking] = useState(null)
   const [filters, setFilters] = useState(FilterService.getDefaultFilters())
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false)
-  const [currentView, setCurrentView] = useState('home') // 'home', 'parking-register', 'login'
+  const [currentView, setCurrentView] = useState('home') // 'home', 'parking-info', 'login'
 
   const handleSearch = (term) => {
     setSearchTerm(term)
@@ -52,8 +52,8 @@ function App() {
     setSelectedParking(null)
   }
 
-  const handleNavigateToParkingRegister = () => {
-    setCurrentView('parking-register')
+  const handleNavigateToParkingInfo = () => {
+    setCurrentView('parking-info')
     setSelectedParking(null)
   }
 
@@ -82,9 +82,9 @@ function App() {
             Início
           </button>
           <button 
-            onClick={handleNavigateToParkingRegister}
+            onClick={handleNavigateToParkingInfo}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              currentView === 'parking-register' 
+              currentView === 'parking-info' 
                 ? 'bg-blue-500 text-white' 
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
@@ -155,9 +155,9 @@ function App() {
           </div>
         )}
 
-        {currentView === 'parking-register' && (
-          <div className="max-w-4xl mx-auto p-4">
-            <ParkingRegister />
+        {currentView === 'parking-info' && (
+          <div className="w-full">
+            <ParkingInfo />
           </div>
         )}
 

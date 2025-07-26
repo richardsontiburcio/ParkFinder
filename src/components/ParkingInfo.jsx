@@ -1,13 +1,22 @@
 import React from 'react';
 import { Card } from './ui/card';
-import { Building2, TrendingUp, Eye, Smartphone, Clock, Users } from 'lucide-react';
+import { Building2, TrendingUp, Eye, Smartphone, Clock, Users, BarChart3, Zap, Globe } from 'lucide-react';
+
+// Import das imagens
+import smartParkingIot from '../assets/smart-parking-iot.webp';
+import solarParking from '../assets/solar-parking.webp';
+import smartParkingSystem from '../assets/smart-parking-system.png';
+import smartParkingTech from '../assets/smart-parking-tech.png';
+import revenueGrowthChart from '../assets/revenue-growth-chart.png';
+import technologyBenefitsInfographic from '../assets/technology-benefits-infographic.png';
+import marketOpportunityChart from '../assets/market-opportunity-chart.png';
 
 const ParkingInfo = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600 rounded-full mb-4">
             <Building2 className="w-8 h-8 text-white" />
           </div>
@@ -19,56 +28,171 @@ const ParkingInfo = () => {
           </p>
         </div>
 
-        {/* Main Benefits Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {/* Visibilidade */}
-          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-100 rounded-full mb-4">
-              <Eye className="w-6 h-6 text-orange-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Máxima Visibilidade
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Seu estacionamento será encontrado por milhares de motoristas que buscam vagas na sua região
-            </p>
-            <div className="text-sm text-orange-600 font-medium">
-              +300% mais clientes
-            </div>
-          </Card>
-
-          {/* Rentabilidade */}
-          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
-              <TrendingUp className="w-6 h-6 text-green-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Maior Rentabilidade
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Otimize a ocupação das suas vagas e aumente sua receita com preços dinâmicos e demanda constante
-            </p>
-            <div className="text-sm text-green-600 font-medium">
-              +45% de receita
-            </div>
-          </Card>
-
-          {/* Tecnologia */}
-          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
-              <Smartphone className="w-6 h-6 text-blue-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Era Tecnológica
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Modernize seu negócio com gestão digital, pagamentos online e controle inteligente de vagas
-            </p>
-            <div className="text-sm text-blue-600 font-medium">
-              100% digital
-            </div>
-          </Card>
+        {/* Hero Image Section */}
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="space-y-6">
+            <img 
+              src={smartParkingIot} 
+              alt="Sistema de estacionamento inteligente com IoT" 
+              className="w-full h-64 object-cover rounded-lg shadow-lg"
+            />
+            <img 
+              src={solarParking} 
+              alt="Estacionamento solar moderno" 
+              className="w-full h-64 object-cover rounded-lg shadow-lg"
+            />
+          </div>
+          <div className="space-y-6">
+            <img 
+              src={smartParkingSystem} 
+              alt="Sistema de estacionamento inteligente" 
+              className="w-full h-64 object-cover rounded-lg shadow-lg"
+            />
+            <img 
+              src={smartParkingTech} 
+              alt="Tecnologia de estacionamento inteligente" 
+              className="w-full h-64 object-cover rounded-lg shadow-lg"
+            />
+          </div>
         </div>
+
+        {/* Gráficos de Crescimento */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Potencial de Crescimento Comprovado
+          </h2>
+          <div className="grid lg:grid-cols-3 gap-8">
+            <Card className="p-6 text-center">
+              <img 
+                src={revenueGrowthChart} 
+                alt="Gráfico de crescimento de receita" 
+                className="w-full h-48 object-contain mb-4"
+              />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Crescimento de Receita
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Aumento médio de 45% na receita dos estacionamentos parceiros
+              </p>
+            </Card>
+            
+            <Card className="p-6 text-center">
+              <img 
+                src={technologyBenefitsInfographic} 
+                alt="Benefícios da tecnologia" 
+                className="w-full h-48 object-contain mb-4"
+              />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Benefícios Tecnológicos
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Transformação digital completa com monitoramento 24/7
+              </p>
+            </Card>
+            
+            <Card className="p-6 text-center">
+              <img 
+                src={marketOpportunityChart} 
+                alt="Oportunidade de mercado" 
+                className="w-full h-48 object-contain mb-4"
+              />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Oportunidade de Mercado
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Mercado de R$ 2,5 bilhões com crescimento exponencial
+              </p>
+            </Card>
+          </div>
+        </div>
+
+        {/* Por Que Aderir ao ParkFinder */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Por Que Aderir ao ParkFinder?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Visibilidade */}
+            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-100 rounded-full mb-4">
+                <Eye className="w-6 h-6 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Máxima Visibilidade
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Seu estacionamento será encontrado por milhares de motoristas que buscam vagas na sua região
+              </p>
+              <div className="text-sm text-orange-600 font-medium">
+                +300% mais clientes
+              </div>
+            </Card>
+
+            {/* Rentabilidade */}
+            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
+                <TrendingUp className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Maior Rentabilidade
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Otimize a ocupação das suas vagas e aumente sua receita com preços dinâmicos e demanda constante
+              </p>
+              <div className="text-sm text-green-600 font-medium">
+                +45% de receita
+              </div>
+            </Card>
+
+            {/* Tecnologia */}
+            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
+                <Smartphone className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Era Tecnológica
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Modernize seu negócio com gestão digital, pagamentos online e controle inteligente de vagas
+              </p>
+              <div className="text-sm text-blue-600 font-medium">
+                100% digital
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        {/* Importância da Inclusão Digital */}
+        <Card className="p-8 mb-12 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+          <div className="text-center">
+            <Globe className="w-16 h-16 mx-auto mb-6 text-blue-200" />
+            <h2 className="text-3xl font-bold mb-6">
+              A Importância da Inclusão Digital
+            </h2>
+            <p className="text-lg text-blue-100 mb-8 max-w-4xl mx-auto">
+              Não fique para trás na revolução digital! O mercado de estacionamentos está se transformando rapidamente. 
+              Estacionamentos que não se adaptarem à era digital perderão competitividade e clientes. 
+              O ParkFinder oferece a ponte perfeita para essa transformação, garantindo que seu negócio permaneça relevante e lucrativo.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <BarChart3 className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                <div className="text-2xl font-bold">85%</div>
+                <div className="text-sm text-blue-200">dos consumidores preferem soluções digitais</div>
+              </div>
+              <div>
+                <Zap className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                <div className="text-2xl font-bold">3x</div>
+                <div className="text-sm text-blue-200">mais rápido para encontrar vagas</div>
+              </div>
+              <div>
+                <TrendingUp className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                <div className="text-2xl font-bold">60%</div>
+                <div className="text-sm text-blue-200">redução no tempo de busca</div>
+              </div>
+            </div>
+          </div>
+        </Card>
 
         {/* Features Section */}
         <Card className="p-6 sm:p-8 mb-8">

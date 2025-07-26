@@ -186,6 +186,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
 
   return (
     <div className="relative w-full">
+      {/* Container do mapa responsivo */}
       <div className="parkfinder-map relative w-full h-[60vh] sm:h-[70vh] lg:h-[75vh] rounded-lg overflow-hidden shadow-lg">
         <MapContainer
           center={defaultCenter}
@@ -198,6 +199,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
+          {/* Marcador da localização selecionada */}
           {selectedLocation && (
             <Marker
               position={[selectedLocation.lat, selectedLocation.lon]}
@@ -213,6 +215,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
             </Marker>
           )}
 
+          {/* Marcadores de estacionamento filtrados */}
           {filteredParkingLots.map((parking) => (
             <Marker
               key={parking.id}
@@ -263,6 +266,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
           ))}
         </MapContainer>
 
+        {/* Legenda */}
         <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-lg p-3 z-10">
           <div className="text-xs font-medium text-gray-900 mb-2">Legenda</div>
           <div className="space-y-1">
@@ -280,6 +284,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
             </div>
           </div>
           
+          {/* Estatísticas dos filtros */}
           {FilterService.hasActiveFilters(filters) && (
             <div className="mt-3 pt-2 border-t border-gray-200">
               <div className="text-xs text-gray-600">
@@ -289,6 +294,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
           )}
         </div>
 
+        {/* Mensagem quando nenhum estacionamento atende aos filtros */}
         {filteredParkingLots.length === 0 && FilterService.hasActiveFilters(filters) && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
             <Card className="bg-white/95 backdrop-blur-sm p-6 text-center">
@@ -302,6 +308,7 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
           </div>
         )}
         
+        {/* Mini imagem hover - responsivo */}
         {hoveredParking && (
           <div 
             className="hover-image-card fixed z-50 pointer-events-none hidden sm:block"

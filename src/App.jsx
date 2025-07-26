@@ -87,16 +87,7 @@ function App() {
           >
             Início
           </button>
-          <button 
-            onClick={handleNavigateToParkingInfo}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              currentView === 'parking-info' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            Estacionamentos
-          </button>
+
           <button 
             onClick={handleNavigateToUserRegister}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${

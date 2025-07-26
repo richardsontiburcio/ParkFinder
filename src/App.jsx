@@ -5,6 +5,7 @@ import RealMapView from './components/RealMapView'
 import ParkingDetails from './components/ParkingDetails'
 import FilterPanel from './components/FilterPanel'
 import ParkingInfo from './components/ParkingInfo'
+import UserRegister from './components/UserRegister'
 import Login from './components/Login'
 import FilterService from './services/FilterService'
 
@@ -18,7 +19,7 @@ function App() {
   const [selectedParking, setSelectedParking] = useState(null)
   const [filters, setFilters] = useState(FilterService.getDefaultFilters())
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false)
-  const [currentView, setCurrentView] = useState('home') // 'home', 'parking-info', 'login'
+  const [currentView, setCurrentView] = useState('home') // 'home', 'parking-info', 'user-register', 'login'
 
   const handleSearch = (term) => {
     setSearchTerm(term)
@@ -62,6 +63,11 @@ function App() {
     setSelectedParking(null)
   }
 
+  const handleNavigateToUserRegister = () => {
+    setCurrentView('user-register')
+    setSelectedParking(null)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Cabeçalho responsivo */}
@@ -90,6 +96,16 @@ function App() {
             }`}
           >
             Estacionamentos
+          </button>
+          <button 
+            onClick={handleNavigateToUserRegister}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              currentView === 'user-register' 
+                ? 'bg-green-500 text-white' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Cadastro
           </button>
           <button 
             onClick={handleNavigateToLogin}
@@ -158,6 +174,12 @@ function App() {
         {currentView === 'parking-info' && (
           <div className="w-full">
             <ParkingInfo />
+          </div>
+        )}
+
+        {currentView === 'user-register' && (
+          <div className="w-full">
+            <UserRegister />
           </div>
         )}
 

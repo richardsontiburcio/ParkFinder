@@ -5,7 +5,17 @@ import { MapPin, Navigation } from 'lucide-react';
 import GeocodingService from '../services/GeocodingService';
 import FilterService from '../services/FilterService';
 import L from 'leaflet';
+
+// Importar CSS do Leaflet
 import 'leaflet/dist/leaflet.css';
+
+// Corrigir ícones padrão do Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
 
 // Configurar ícones customizados para os marcadores
 const createCustomIcon = (letter, color = '#FF8C00') => {
@@ -168,16 +178,19 @@ const RealMapView = ({ searchLocation, onParkingSelect, filters }) => {
   const stats = FilterService.getFilteredStats(allParkingLots, filteredParkingLots);
 
   return (
-    <div className="relative h-96 rounded-lg overflow-hidden">
+    <div className="relative h-96 rounded-lg overflow-hidden border border-gray-200">
       <MapContainer
         center={defaultCenter}
         zoom={defaultZoom}
-        style={{ height: '100%', width: '100%' }}
-        className="z-0"
+        style={{ height: '100%', width: '100%', zIndex: 1 }}
+        className="leaflet-container"
+        scrollWheelZoom={true}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={19}
         />
 
         {/* Marcador da localização selecionada */}
